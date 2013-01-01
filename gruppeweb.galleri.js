@@ -1,16 +1,16 @@
- /********************************************************
- * gruppeweb.galleri.js by hypesystem <me@hypesystem.dk> *
- *                                                       *
- * This script changes the behaviour of the image        *
- * galleries provided by Gruppeweb, a Drupal CMS for     *
- * scouts. It uses an external API (which, in turn,      *
- * parses the original page) to bring an enhanced        *
- * experience.                                           *
- ********************************************************/
+/**
+ * gruppeweb.galleri.js by hypesystem <me@hypesystem.dk>
+ *
+ * This script changes the behaviour of the image
+ * galleries provided by Gruppeweb, a Drupal CMS for
+ * scouts. It uses an external API (which, in turn,
+ * parses the original page) to bring an enhanced
+ * experience.
+ */
 
 (function($) {
     //Set host, get base URLs for resources
-    var host = "http://itu.dk/people/nroe/etc/";
+    var host = "http://localhost/galleri/";
     var baseUrl = location.href.split("/")[2];
     var requestUrl = host+"gallerifetch.php?base="+baseUrl;
 
@@ -47,7 +47,7 @@
      */
     function getContent(id, isPop) {
         $("#loading-box").fadeIn('slow'); //Tell the user we're downloading data
-        $.getJSON(requestUrl+"&id="+id+"&callback=?", function(data2) { //Actually download data using JSONP API
+        $.getJSON(requestUrl+"&id="+id+"&callback=?", function(data2) { //Download data using JSONP API
             $("#content").slideUp('slow', function() { //When data is loaded, slide old content away...
                 $(this).html(data2.content).slideDown('slow'); //And slide in new content.
                 if(!isPop) history.pushState({ thisId: id }, $('title').text(), "?id="+id); //Push state (so long isPop is not set to true)
@@ -110,12 +110,7 @@
     $('<a href="#" id="activate-gallery" style="display:block;text-align:center;padding:8px;border:1px #999 dotted;">Prøv (betaversionen af) det nye, bedre billedgalleri!</a>')
         .prependTo("#content")
         .click(function() {
-            $.getJSON(requestUrl+"&callback=?", function(data) {
-                $("#content").slideUp('slow', function() {
-                    $(this).html(data).slideDown('slow');
-                    $("#activate-gallery").hide();
-                    setUpClickListeners();
-                });
-            });
+            getContent(0, false);
+            setUpClickListeners();
         });
 })(jQuery);
