@@ -10,7 +10,7 @@
 
 (function($) {
     //Set host, get base URLs for resources
-    var host = "http://localhost/galleri/";
+    var host = "http://hotel.dds.dk/bernstorff/1soeborg/ext/";
     var baseUrl = location.href.split("/")[2];
     var requestUrl = host+"gallerifetch.php?base="+baseUrl;
 
